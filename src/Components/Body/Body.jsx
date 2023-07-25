@@ -17,7 +17,7 @@ export function Body() {
     setList([...lists, newList]);
     setNewList(""); 
   }
-
+  
   function handleNewCommentChange(event) {
     setNewList(event.target.value); 
   }
@@ -55,7 +55,7 @@ export function Body() {
       </div>
       <div className="">
         {lists.map((list, index) => {
-          return <List key={generateRandomId() + index} checked={false} content={list} />;
+          return <List key={generateRandomId() + index} checked={true} content={list} />;
         })}
       </div>
     </div>
