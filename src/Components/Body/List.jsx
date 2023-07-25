@@ -1,7 +1,8 @@
 import styles from "./List.module.css";
 import { Trash } from "phosphor-react";
+import PropTypes from 'prop-types';
 
-export function List() {
+export function List({content}) {
   return (
     <div className={styles.listWrapper}>
       <ul>
@@ -9,10 +10,7 @@ export function List() {
           <input type="checkbox" id="checkbox" />
           <label htmlFor="checkbox" />
           <span>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde
-            molestias, nulla non hic molestiae odit, tenetur distinctio magnam
-            numquam culpa ipsam! Explicabo veniam itaque delectus ex sapiente
-            non molestiae nisi.
+            <p>{content}</p>
           </span>
         </li>
         <button>
@@ -22,3 +20,7 @@ export function List() {
     </div>
   );
 }
+
+List.propTypes = {
+  content: PropTypes.string.isRequired,
+};
