@@ -3,18 +3,16 @@ import clip from "../../../public/Clipboard.svg";
 import { List } from "./List";
 import { useState } from "react";
 
-
 export function Body() {
   const [lists, setLists] = useState([]);
   const [newList, setNewList] = useState("");
-  
 
   function handleCreateNewList(event) {
     event.preventDefault();
     setLists([...lists, newList]);
     setNewList("");
   }
-  
+
   function handleNewCommentChange(event) {
     setNewList(event.target.value);
   }
@@ -24,21 +22,20 @@ export function Body() {
     setLists(contentWithoutDeleted);
   }
 
-
   return (
     <div className={styles.bodyWrapper}>
       <form
         onSubmit={handleCreateNewList}
         onChange={handleNewCommentChange}
         className={styles.form}
-        >
+      >
         <input
           type="text"
           name="list"
           value={newList}
           onChange={(e) => setNewList(e.target.value)}
           placeholder="Adicione uma nova tarefa"
-          />
+        />
         <input type="submit" value="Criar +" />
       </form>
       <div className={styles.taskCountRow}>
@@ -51,22 +48,24 @@ export function Body() {
           <span className={styles.taskCountNumber}>0</span>
         </div>
       </div>
-      <div className={styles.taskArea}>
-        <img src={clip} width="56px" />
-        <strong>Você ainda não tem tarefas cadastradas</strong>
-        <p>CrieTarefas e organize seus itens a fazer</p>
-      </div>
+      {lists.length === 0 && (
+        <div className={styles.taskArea}>
+          <img src={clip} width="56px" />
+          <strong>Você ainda não tem tarefas cadastradas</strong>
+          <p>CrieTarefas e organize seus itens a fazer</p>
+        </div>
+      )}
       <div className="">
         {lists.map((list, index) => {
           return (
             <List
-            key={index}
-            checked={true}
-            content={list}
-            deleteComment={() => deleteComment(index)}
+              key={index}
+              checked={true}
+              content={list}
+              deleteComment={() => deleteComment(index)}
             />
-            );
-          })}
+          );
+        })}
       </div>
     </div>
   );
