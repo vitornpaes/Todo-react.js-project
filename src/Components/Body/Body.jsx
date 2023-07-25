@@ -2,6 +2,11 @@ import styles from "./Body.module.css";
 import clip from "../../../public/Clipboard.svg";
 import { List } from "./List";
 import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
+function generateRandomId() {
+  return uuidv4;
+}
 
 export function Body() {
   const [lists, setList] = useState([]);
@@ -10,11 +15,11 @@ export function Body() {
   function handleCreateNewList(event) {
     event.preventDefault();
     setList([...lists, newList]);
-    setNewList("");
+    setNewList(""); 
   }
 
-  function handleNewCommentChange() {
-    setNewList(event.target.value);
+  function handleNewCommentChange(event) {
+    setNewList(event.target.value); 
   }
 
   return (
@@ -28,6 +33,7 @@ export function Body() {
           type="text"
           name="list"
           value={newList}
+          onChange={(e) => setNewList(e.target.value)}
           placeholder="Adicione uma nova tarefa"
         />
         <input type="submit" value="Criar +" />
@@ -48,8 +54,8 @@ export function Body() {
         <p>CrieTarefas e organize seus itens a fazer</p>
       </div>
       <div className="">
-        {lists.map((list) => {
-          return <List key={list.id} checked={false} content={list} />;
+        {lists.map((list, index) => {
+          return <List key={generateRandomId() + index} checked={false} content={list} />;
         })}
       </div>
     </div>
