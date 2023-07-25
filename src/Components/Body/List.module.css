@@ -1,0 +1,91 @@
+.listWrapper {
+  margin: 0 auto;
+  padding: 8px 8px;
+  max-width: 39.875rem;
+  position: relative;
+  top: 100px;
+}
+
+.listWrapper ul {
+  display: flex;
+  justify-content: space-between;
+  background: var(--gray-500);
+  padding: 1rem 1rem;
+  border: 1px solid var(--gray-400);
+  border-radius: 8px;
+}
+
+.listWrapper li {
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+.listWrapper label {
+  cursor: pointer;
+  position: relative;
+}
+
+.listWrapper li input + label:before {
+  content: "";
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 100%;
+  background: var(--gray-500);
+  border: 1px solid var(--blue);
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 12px;
+  transition: 0.5s;
+}
+
+.listWrapper li input:checked + label:before {
+  border: hidden;
+  width: 1.55rem;
+  height: 1.55rem;
+  background: url("../../../public/Vector.svg") no-repeat center
+    var(--purple-dark);
+  border-radius: 50%;
+  transform: rotate(0deg);
+  transition: transform 0.5s;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.listWrapper li input:not(:checked) + label:before {
+  transform: rotate(90deg);
+}
+
+.listWrapper span {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: justify;
+  padding-right: 8px;
+}
+
+.listWrapper li input:checked + label + span {
+  text-decoration: line-through;
+  color: var(--gray-300);
+}
+
+.trash {
+  position: relative;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  color: var(--gray-300);
+}
+
+.trash:hover {
+  color: var(--danger);
+}
+
+button {
+  background: none;
+  border: none;
+}
+button:focus {
+  outline: none;
+}
