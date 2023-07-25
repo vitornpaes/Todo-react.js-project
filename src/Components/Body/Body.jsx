@@ -2,25 +2,28 @@ import styles from "./Body.module.css";
 import clip from "../../../public/Clipboard.svg";
 import { List } from "./List";
 import { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
 
-function generateRandomId() {
-  return uuidv4;
-}
 
 export function Body() {
-  const [lists, setList] = useState([]);
+  const [lists, setLists] = useState([]);
   const [newList, setNewList] = useState("");
+  
 
   function handleCreateNewList(event) {
     event.preventDefault();
-    setList([...lists, newList]);
-    setNewList(""); 
+    setLists([...lists, newList]);
+    setNewList("");
   }
   
   function handleNewCommentChange(event) {
-    setNewList(event.target.value); 
+    setNewList(event.target.value);
   }
+
+  function deleteComment(index) {
+    const contentWithoutDeleted = lists.filter((_, idx) => idx !== index);
+    setLists(contentWithoutDeleted);
+  }
+
 
   return (
     <div className={styles.bodyWrapper}>
@@ -28,14 +31,14 @@ export function Body() {
         onSubmit={handleCreateNewList}
         onChange={handleNewCommentChange}
         className={styles.form}
-      >
+        >
         <input
           type="text"
           name="list"
           value={newList}
           onChange={(e) => setNewList(e.target.value)}
           placeholder="Adicione uma nova tarefa"
-        />
+          />
         <input type="submit" value="Criar +" />
       </form>
       <div className={styles.taskCountRow}>
@@ -55,8 +58,15 @@ export function Body() {
       </div>
       <div className="">
         {lists.map((list, index) => {
-          return <List key={generateRandomId() + index} checked={true} content={list} />;
-        })}
+          return (
+            <List
+            key={index}
+            checked={true}
+            content={list}
+            deleteComment={() => deleteComment(index)}
+            />
+            );
+          })}
       </div>
     </div>
   );

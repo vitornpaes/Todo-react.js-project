@@ -4,11 +4,16 @@ import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
 function generateRandomId() {
-  return uuidv4(); // Call the function to get the unique ID
+  return uuidv4();
 }
 
-export function List({ content }) {
+export function List({ content, deleteComment }) {
   const inputId = generateRandomId();
+
+  const handleDeleteList = () => {
+    deleteComment(content);
+  };
+
   return (
     <div className={styles.listWrapper}>
       <ul>
@@ -19,7 +24,7 @@ export function List({ content }) {
             <p>{content}</p>
           </span>
         </li>
-        <button>
+        <button onClick={handleDeleteList}>
           <Trash size={24} className={styles.trash} />
         </button>
       </ul>
@@ -29,4 +34,5 @@ export function List({ content }) {
 
 List.propTypes = {
   content: PropTypes.string.isRequired,
+  deleteComment: PropTypes.func.isRequired,
 };
