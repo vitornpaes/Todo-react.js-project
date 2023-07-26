@@ -6,11 +6,13 @@ import { useState } from "react";
 export function Body() {
   const [lists, setLists] = useState([]);
   const [newList, setNewList] = useState("");
+  const [taskCountCreated, setTaskCountCreated] = useState(0);
 
   function handleCreateNewList(event) {
     event.preventDefault();
     setLists([...lists, newList]);
     setNewList("");
+    setTaskCountCreated(taskCountCreated + 1);
   }
 
   function handleNewCommentChange(event) {
@@ -20,6 +22,7 @@ export function Body() {
   function deleteComment(index) {
     const contentWithoutDeleted = lists.filter((_, idx) => idx !== index);
     setLists(contentWithoutDeleted);
+    setTaskCountCreated(taskCountCreated - 1)
   }
 
   return (
@@ -41,11 +44,19 @@ export function Body() {
       <div className={styles.taskCountRow}>
         <div className={styles.taskCount}>
           <h5 className={styles.titleBlue}>Tarefas criadas</h5>
-          <span className={styles.taskCountNumber}>0</span>
+          <span
+            className={`${styles.taskCountNumber} ${styles.taskCountCreated}`}
+          >
+            {taskCountCreated}
+          </span>
         </div>
         <div className={styles.taskCount}>
           <h5 className={styles.titlePurple}>Concluidas</h5>
-          <span className={styles.taskCountNumber}>0</span>
+          <span
+            className={`${styles.taskCountNumber} ${styles.taskCountCompleted}`}
+          >
+            0
+          </span>
         </div>
       </div>
       {lists.length === 0 && (
