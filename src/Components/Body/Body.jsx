@@ -7,6 +7,17 @@ export function Body() {
   const [lists, setLists] = useState([]);
   const [newList, setNewList] = useState("");
   const [taskCountCreated, setTaskCountCreated] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState([]);
+
+  function TaskCompletion(index) {
+    if (completedTasks.includes(index)) {
+      setCompletedTasks(
+        completedTasks.filter((taskIndex) => taskIndex !== index)
+      );
+    } else {
+      setCompletedTasks([...completedTasks, index]);
+    }
+  }
 
   function handleCreateNewList(event) {
     event.preventDefault();
@@ -19,10 +30,15 @@ export function Body() {
     setNewList(event.target.value);
   }
 
-  function deleteComment(index) {
+  function deleteList(index) {
     const contentWithoutDeleted = lists.filter((_, idx) => idx !== index);
+    const updatedCompletedTasks = completedTasks.filter(
+      (taskIndex) => taskIndex !== index
+    );
+
     setLists(contentWithoutDeleted);
-    setTaskCountCreated(taskCountCreated - 1)
+    setCompletedTasks(updatedCompletedTasks);
+    setTaskCountCreated(taskCountCreated - 1);
   }
 
   return (
@@ -44,18 +60,14 @@ export function Body() {
       <div className={styles.taskCountRow}>
         <div className={styles.taskCount}>
           <h5 className={styles.titleBlue}>Tarefas criadas</h5>
-          <span
-            className={`${styles.taskCountNumber} ${styles.taskCountCreated}`}
-          >
-            {taskCountCreated}
-          </span>
+          <span className={styles.taskCountNumber}>{taskCountCreated}</span>
         </div>
         <div className={styles.taskCount}>
-          <h5 className={styles.titlePurple}>Concluidas</h5>
-          <span
-            className={`${styles.taskCountNumber} ${styles.taskCountCompleted}`}
-          >
-            0
+          <h5 className={styles.titlePurple}>Concluidas </h5>
+          <span className={styles.taskCountCompleted}>
+            {completedTasks.length === 0 && taskCountCreated === 0
+              ? "0"
+              : `${completedTasks.length} de ${taskCountCreated}`}
           </span>
         </div>
       </div>
@@ -71,9 +83,10 @@ export function Body() {
           return (
             <List
               key={index}
-              checked={true}
+              checked={completedTasks.includes(index)}
               content={list}
-              deleteComment={() => deleteComment(index)}
+              deleteList={() => deleteList(index)}
+              onTaskComplete={() => TaskCompletion(index)}
             />
           );
         })}

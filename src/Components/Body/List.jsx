@@ -7,18 +7,28 @@ function generateRandomId() {
   return uuidv4();
 }
 
-export function List({ content, deleteComment }) {
+export function List({ content,checked, deleteList, onTaskComplete }) {
   const inputId = generateRandomId();
 
   const handleDeleteList = () => {
-    deleteComment(content);
+    deleteList(content);
+  };
+
+  const handleTaskComplete = () => {
+    onTaskComplete();
   };
 
   return (
     <div className={styles.listWrapper}>
       <ul>
         <li>
-          <input type="checkbox" id={inputId} name="checkbox" />
+          <input
+            type="checkbox"
+            id={inputId}
+            name="checkbox"
+            onChange={handleTaskComplete}
+            checked={checked}
+          />
           <label htmlFor={inputId} />
           <span>
             <p>{content}</p>
@@ -34,5 +44,7 @@ export function List({ content, deleteComment }) {
 
 List.propTypes = {
   content: PropTypes.string.isRequired,
-  deleteComment: PropTypes.func.isRequired,
+  checked: PropTypes.bool.isRequired,
+  deleteList: PropTypes.func.isRequired,
+  onTaskComplete: PropTypes.func.isRequired,
 };
