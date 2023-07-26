@@ -8,6 +8,7 @@ export function Body() {
   const [newList, setNewList] = useState("");
   const [taskCountCreated, setTaskCountCreated] = useState(0);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const isNewListEmpty = newList.length === 0;
 
   function TaskCompletion(index) {
     if (completedTasks.includes(index)) {
@@ -55,7 +56,7 @@ export function Body() {
           onChange={(e) => setNewList(e.target.value)}
           placeholder="Adicione uma nova tarefa"
         />
-        <input type="submit" value="Criar +" />
+        <input type="submit" value="Criar +" disabled={isNewListEmpty}/>
       </form>
       <div className={styles.taskCountRow}>
         <div className={styles.taskCount}>
