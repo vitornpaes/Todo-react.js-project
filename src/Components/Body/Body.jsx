@@ -9,20 +9,19 @@ export function Body() {
   const [taskCountCreated, setTaskCountCreated] = useState(0);
   const [completedTasks, setCompletedTasks] = useState([]);
   const isNewListEmpty = newList.length === 0;
+  const id = String(new Date().getTime());
 
-  function TaskCompletion(index) {
-    if (completedTasks.includes(index)) {
-      setCompletedTasks(
-        completedTasks.filter((taskIndex) => taskIndex !== index)
-      );
+  function TaskCompletion(id) {
+    if (completedTasks.includes(id)) {
+      setCompletedTasks(completedTasks.filter((taskId) => taskId !== id));
     } else {
-      setCompletedTasks([...completedTasks, index]);
+      setCompletedTasks([...completedTasks, id]);
     }
   }
 
   function handleCreateNewList(event) {
     event.preventDefault();
-    setLists([...lists, newList]);
+    setLists([...lists, { id: id, label: newList }]);
     setNewList("");
     setTaskCountCreated(taskCountCreated + 1);
   }
@@ -31,10 +30,10 @@ export function Body() {
     setNewList(event.target.value);
   }
 
-  function deleteList(index) {
-    const contentWithoutDeleted = lists.filter((_, idx) => idx !== index);
+  function deleteList(id) {
+    const contentWithoutDeleted = lists.filter((list) => list.id !== id);
     const updatedCompletedTasks = completedTasks.filter(
-      (taskIndex) => taskIndex !== index
+      (taskId) => taskId !== id
     );
 
     setLists(contentWithoutDeleted);
@@ -56,7 +55,7 @@ export function Body() {
           onChange={(e) => setNewList(e.target.value)}
           placeholder="Adicione uma nova tarefa"
         />
-        <input type="submit" value="Criar +" disabled={isNewListEmpty}/>
+        <input type="submit" value="Criar +" disabled={isNewListEmpty} />
       </form>
       <div className={styles.taskCountRow}>
         <div className={styles.taskCount}>
@@ -80,14 +79,14 @@ export function Body() {
         </div>
       )}
       <div className="">
-        {lists.map((list, index) => {
+        {lists.map((list) => {
           return (
             <List
-              key={index}
-              checked={completedTasks.includes(index)}
-              content={list}
-              deleteList={() => deleteList(index)}
-              onTaskComplete={() => TaskCompletion(index)}
+              key={list.id}
+              checked={completedTasks.includes(list.id)}
+              content={list.label}
+              deleteList={() => deleteList(list.id)}
+              onTaskComplete={() => TaskCompletion(list.id)}
             />
           );
         })}
